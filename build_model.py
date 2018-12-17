@@ -1,25 +1,25 @@
 from keras.models import Sequential
-from keras.layers import Dense, Flatten, Dropout, Convolution2D, MaxPooling2D, Activation
+from keras.layers import Dense, Flatten, Dropout, Convolution2D, MaxPooling2D, Activation, Conv2D
 
-def build_model():
+def build_model(kHeight, kWidth, input_shape, classes):
     model = Sequential()
-    model.add(Convolution2D(32, 3, 3, input_shape=(200, 60, 3)))
+    model.add(Conv2D(32, (kHeight, kWidth), input_shape=input_shape))
     model.add(Activation("relu"))
     #model.add(BatchNormalization(axis=-1))
     model.add(MaxPooling2D(pool_size=(3, 3)))
     model.add(Dropout(0.25))
 
-    model.add(Convolution2D(64, 3, 3))
+    model.add(Conv2D(64, (kHeight, kWidth)))
     model.add(Activation("relu"))
-    model.add(Convolution2D(64, 3, 3))
+    model.add(Conv2D(64, (kHeight, kWidth)))
     model.add(Activation("relu"))
     #model.add(BatchNormalization(axis=-1))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
 
-    model.add(Convolution2D(128, 3, 3))
+    model.add(Conv2D(128, (kHeight, kWidth)))
     model.add(Activation("relu"))
-    model.add(Convolution2D(128, 3, 3))
+    model.add(Conv2D(128, (kHeight, kWidth)))
     model.add(Activation("relu"))
     #model.add(BatchNormalization(axis=-1))
     model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -30,6 +30,6 @@ def build_model():
     model.add(Activation("relu"))
     #model.add(BatchNormalization(axis=-1))
     model.add(Dropout(0.5))
-    model.add(Dense(9))
+    model.add(Dense(classes))
     model.add(Activation("softmax"))
     return model
