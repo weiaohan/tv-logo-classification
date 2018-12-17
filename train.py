@@ -1,13 +1,22 @@
 # -*- coding: UTF-8 -*- 
-import numpy as np
-from keras.preprocessing.image import ImageDataGenerator
-from keras.preprocessing import image
 import time
+import argparse
 import matplotlib.pyplot as plt
+import numpy as np
+from keras.preprocessing import image
+from keras.preprocessing.image import ImageDataGenerator
+
 import build_model
 
-model = build_model.build_model()
-# model.load_weights('first_try.h5')
+epochs = 20
+steps_per_epoch = 1000
+batch_size = 16
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-p', default=False, type=bool, help='plot loss and accuracy')
+args = parser.parse_args()
+
+model = build_model.build_model(3, 3, (200, 60, 3), 9)
 
 model.compile(optimizer="rmsprop", loss="categorical_crossentropy", metrics=["accuracy"])
 
@@ -27,36 +36,38 @@ test_datagen = ImageDataGenerator(rescale=1./255)
 train_generator = train_datagen.flow_from_directory(
     'data/train',
     target_size=(200, 60),
-    batch_size=16,
+    batch_size=batch_size,
     class_mode='categorical'
 )
 validation_generator = test_datagen.flow_from_directory(
         'data/validation',
         target_size=(200, 60),
-        batch_size=16,
+        batch_size=batch_size,
         class_mode='categorical')
 
 history = model.fit_generator(
    train_generator,
-   steps_per_epoch=1000,
-   epochs=20,
+   steps_per_epoch=steps_per_epoch,
+   epochs=epochs,
    validation_data=validation_generator,
    validation_steps=400)
-#plt.plot(history.history['acc'])
-#plt.plot(history.history['val_acc'])
-#plt.title('model accuracy')
-#plt.ylabel('accuracy')
-#plt.xlabel('epoch')
-#plt.legend(['train', 'test'], loc='upper left')
-#plt.show()
-# summarize history for loss
-#plt.plot(history.history['loss'])
-#plt.plot(history.history['val_loss'])
-#plt.title('model loss')
-#plt.ylabel('loss')
-#plt.xlabel('epoch')
-#plt.legend(['train', 'test'], loc='upper left')
-#plt.show()
+
+if args.p:
+    plt.plot(history.history['acc'])
+    plt.plot(history.history['val_acc'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+#summarize history for loss
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
 
 time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 model.save_weights(time_stamp + '.h5')
