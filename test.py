@@ -6,8 +6,8 @@ from PIL import Image,ImageFont,ImageDraw
 import build_model
 import classfication_dict
 
-model = build_model.build_model(3, 3, (200, 60, 3), 9)
-model.load_weights("train_weights/2018-12-15.h5")
+model = build_model.build_model(3, 3, (200, 60, 3), 30)
+model.load_weights("train_weights/2018-12-21.h5")
 
 img_path = "test_pic/anhui-test.png"
 img = image.load_img(img_path, target_size=(200,60))
