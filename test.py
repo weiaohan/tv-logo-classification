@@ -9,7 +9,7 @@ import classfication_dict
 model = build_model.build_model(3, 3, (200, 60, 3), 9)
 model.load_weights("train_weights/2018-12-15.h5")
 
-img_path = "test_pic/cctv1-test.png"
+img_path = "test_pic/anhui-test.png"
 img = image.load_img(img_path, target_size=(200,60))
 x = image.img_to_array(img)
 x = np.expand_dims(x, axis=0)
@@ -20,8 +20,8 @@ result_word = classfication_dict.classfication_dict[np.argmax(result, axis=0)]
 
 im = Image.open(img_path)
 draw = ImageDraw.Draw(im)
-set_font = ImageFont.truetype('/Users/weiaohan/Library/Fonts/Ubuntu Mono derivative Powerline.ttf', 40)
-draw.text((200,60), result_word, font=set_font, fill = (0, 0 ,0))
+set_font = ImageFont.truetype('/Users/weiaohan/Library/Fonts/Ubuntu Mono derivative Powerline.ttf', 30)
+draw.text((100,60), result_word, font=set_font, fill = (255, 0 ,0))
 im.show()
 
 print(result)
