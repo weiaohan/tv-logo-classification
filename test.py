@@ -9,7 +9,7 @@ import classfication_dict
 model = build_model.build_model(3, 3, (200, 60, 3), 30)
 model.load_weights("train_weights/2018-12-21.h5")
 
-img_path = "test_pic/anhui-test.png"
+img_path = "test_pic/cctv1-test.png"
 img = image.load_img(img_path, target_size=(200,60))
 x = image.img_to_array(img)
 x = np.expand_dims(x, axis=0)
