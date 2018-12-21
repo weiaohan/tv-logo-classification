@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-p', default=False, type=bool, help='plot loss and accuracy')
 args = parser.parse_args()
 
-model = build_model.build_model(3, 3, (200, 60, 3), 9)
+model = build_model.build_model(3, 3, (200, 60, 3), 30)
 
 model.compile(optimizer="rmsprop", loss="categorical_crossentropy", metrics=["accuracy"])
 
@@ -33,14 +33,14 @@ train_datagen = ImageDataGenerator(
     validation_split=0.1
 )
 train_generator = train_datagen.flow_from_directory(
-    'data/train',
+    'data',
     target_size=(200, 60),
     batch_size=batch_size,
     class_mode='categorical',
     subset='training'
     )#查看分类混合结果
 validation_generator = train_datagen.flow_from_directory(
-        'data/validation',
+        'data',
         target_size=(200, 60),
         batch_size=batch_size,
         class_mode='categorical',
