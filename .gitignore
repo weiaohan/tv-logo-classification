@@ -2,3 +2,4 @@ __pycache__/
 data/
 test_pic/
 rename.sh
+train_weights/
